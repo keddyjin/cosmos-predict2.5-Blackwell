@@ -1,5 +1,6 @@
 # Build cmd: docker build --ulimit nofile=131071:131071 --network=host -f Dockerfile-Blackwell-7a51a79 . -t cosmos-predict-2.5
-##  Currently only tested on RTX Pro 6000D with git commit 7a51a79, Driver: 580.95.05, CUDA: 13.0
+##  Currently only tested on RTX Pro 6000D with cosmos-predict2.5 git commit 7a51a79 and cosmos-transfer2.5 git commit 0033b77, Driver: 580.95.05, CUDA: 13.0
+##  When using this container, should mount cosmos-predict2.5 or cosmos-transfer2.5 code path the container's path /workspace
 
 FROM nvcr.io/nvidia/pytorch:25.10-py3
 
