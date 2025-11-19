@@ -1,0 +1,23 @@
+# Build cmd: docker build --ulimit nofile=131071:131071 --network=host -f Dockerfile-Blackwell-7a51a79 . -t cosmos-predict-2.5
+##  Currently only tested on RTX Pro 6000D with git commit 7a51a79, Driver: 580.95.05, CUDA: 13.0
+
+FROM nvcr.io/nvidia/pytorch:25.10-py3
+
+# Create and set working directory
+WORKDIR /workspace
+
+# Copy some package and dependency files
+COPY requirements-Blackwell-7a51a79.txt /workspace/requirements.txt
+COPY packages/cosmos-cuda /workspace/packages/cosmos-cuda
+COPY packages/cosmos-oss /workspace/packages/cosmos-oss
+
+# Install dependency packages
+RUN unset PIP_CONSTRAINT && \
+cd /workspace/packages/cosmos-oss && \
+pip install -e . && \
+cd /workspace/packages/cosmos-cuda && \
+pip install -e . && \
+cd /workspace && \
+pip install -r requirements.txt && \
+apt-get update && \
+apt-get install -y libgl1 libglx-mesa0
